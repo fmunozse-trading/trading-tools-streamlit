@@ -11,6 +11,11 @@ WORKDIR /app
 # Copiar los archivos de definición de dependencias
 COPY pyproject.toml uv.lock ./
 
+# Instalar dependencias del sistema necesarias
+# curl: para el healthcheck
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # Instalar las dependencias del proyecto
 # --frozen: Asegura que se instalen exactamente las versiones del uv.lock
 # --no-install-project: No instala el paquete actual, solo dependencias (optimización para Docker)
